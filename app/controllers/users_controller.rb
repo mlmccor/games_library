@@ -14,7 +14,7 @@ class UsersController < ApplicationController
   end
 
   post '/users' do
-    @user = User.create(name: params[:name], username: params[:username], password: params[:password_digest])
+    @user = User.create(name: params[:name], username: params[:username], password: params[:password])
   end
 
 
