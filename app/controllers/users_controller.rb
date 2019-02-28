@@ -15,7 +15,29 @@ class UsersController < ApplicationController
 
   post '/users' do
     @user = User.create(name: params[:name], username: params[:username], password: params[:password])
+    redirect '/users/login'
   end
+
+  get '/users/login' do
+    erb :'/users/login'
+  end
+
+  get '/users/failure' do
+    erb :'/users/failure'
+  end
+
+  get'/users/home' do
+    @user
+  end
+
+  post "/users/login" do
+		user = User.find_by(:username => params[:username])
+		if user && user.authenticate(params[:password])
+			session[:user_id] = user.id
+			redirect '/users/home'
+		else
+			redirect '/failure'
+		end
 
 
   helpers do
