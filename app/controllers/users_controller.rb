@@ -3,7 +3,6 @@ require 'pry'
 class UsersController < ApplicationController
 
   get '/users' do
-    binding.pry
     @users = User.all
     erb :'users/index'
   end
@@ -14,7 +13,8 @@ class UsersController < ApplicationController
   end
 
   post '/users' do
-    @user = User.create(name: params[:name], username: params[:username], password: params[:password])
+    @user = User.create(name: params[:name], username: params[:username], password: params[:password], game_ids: params[:game_ids])
+      binding.pry
     redirect '/users/login'
   end
 
@@ -26,18 +26,21 @@ class UsersController < ApplicationController
     erb :'/users/failure'
   end
 
-  get'/users/home' do
-    @user
+  get'/users/:slug' do
+    @user = User.find_by_slug
+    if current_user == @user
+      erb '/users/home'
   end
 
   post "/users/login" do
 		user = User.find_by(:username => params[:username])
 		if user && user.authenticate(params[:password])
 			session[:user_id] = user.id
-			redirect '/users/home'
+			redirect "/users/#{user.slug}"
 		else
 			redirect '/failure'
 		end
+  end
 
 
   helpers do

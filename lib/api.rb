@@ -1,15 +1,18 @@
-require 'open uri'
 require 'json'
 require 'net/https'
 require 'pry'
 class Api
   def self.run
     http = Net::HTTP.new('api-v3.igdb.com', 80)
-    request = Net::HTTP::Get.new(URI('https://api-v3.igdb.com/games'), {'user-  key' => '643af9abcf6debbaa8e1ef70a734505b'})
-    request.body = 'fields name, summary; sort popularity desc; where genres != [13]; where summary != null; limit 50;'
+    request = Net::HTTP::Get.new(URI('https://api-v3.igdb.com/games'), {'user-key' => '643af9abcf6debbaa8e1ef70a734505b'})
+    request.body = 'fields name, genres, summary; sort popularity desc; where genres != [13]; where summary != null; where genres != [13]; where name != null; limit 50;'
     data = http.request(request).body
     my_array = JSON.parse(data)
     my_array.each do |game|
-      Game.create(name: game['name'], summary: game['summary'])
+      if !game['name'].include?('Assault') && !game['name'].include?('Beach') && !game['name'].include?('Silk')
+        Game.create(name: game['name'], summary: game['summary'])
+      end
     end
+
+  end
 end

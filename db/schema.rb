@@ -13,6 +13,14 @@
 
 ActiveRecord::Schema.define(version: 20190227194227) do
 
+  create_table "ar_internal_metadata", primary_key: "key", force: :cascade do |t|
+    t.string   "value"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "ar_internal_metadata", ["key"], name: "sqlite_autoindex_ar_internal_metadata_1", unique: true
+
   create_table "games", force: :cascade do |t|
     t.string "name"
     t.string "summary"

@@ -6,10 +6,9 @@
   Password:<input type="text" name="password">
   <br>
   <br>
-  <select class="" name="">
-    <% @games.each do |game|%>
-    <option value="<%=game.id%>"><%=game.name%></option>
-     <%end%>
-  </select>
+  <% @games.each.with_index(1) do |game, index|%>
+  <label style="width:240px; display:inline-block"><input type="checkbox" name="game_ids[]" value="<%=game.id%>"><%=game.name%></label>
+  <%if index % 3 == 0%><br><%end%>
+  <%end%>
   <input type="submit" name="submit" value="Create User">
 </form>
