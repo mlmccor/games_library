@@ -14,7 +14,6 @@ class UsersController < ApplicationController
 
   post '/users' do
     @user = User.create(name: params[:name], username: params[:username], password: params[:password], game_ids: params[:game_ids])
-      binding.pry
     redirect '/users/login'
   end
 
@@ -27,9 +26,11 @@ class UsersController < ApplicationController
   end
 
   get'/users/:slug' do
-    @user = User.find_by_slug
+    @user = User.find_by_slug(params[:slug])
     if current_user == @user
-      erb '/users/home'
+      @user_games = @user.user_games
+      erb :'/users/home'
+    end
   end
 
   post "/users/login" do

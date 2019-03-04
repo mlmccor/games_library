@@ -1,0 +1,9 @@
+<%=@user_game.status%>
+
+<h4>Update your status here:</h4>
+
+<form action="/user_games/<%=@user_game.id%>" method="post">
+  <input id="hidden" type="hidden" name="_method" value="patch">
+  <input type="text" name="status" value="<%=@user_game.status%>">
+  <input type="submit" value="Save">
+</form>
