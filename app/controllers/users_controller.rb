@@ -43,14 +43,22 @@ class UsersController < ApplicationController
 		end
   end
 
+  get '/users/:slug/edit' do
+    @user = User.find_by_slug(params[:slug])
+    erb :'/users/edit'
+  end
 
-  helpers do
-		def logged_in?
-			!!session[:user_id]
-		end
+  delete '/users/:slug/delete' do
+    @user = User.find_by_slug(params[:slug])
+    @user.destroy
+    redirect '/'
+  end
 
-		def current_user
-			User.find(session[:user_id])
-		end
-	end
+  get '/logout' do
+    binding.pry
+    session.clear
+    redirect '/'
+  end
+
+
 end

@@ -7,8 +7,8 @@
   <br>
   <br>
   <% @games.each.with_index(1) do |game, index|%>
-  <label style="width:240px; display:inline-block"><input type="checkbox" name="game_ids[]" value="<%=game.id%>"><%=game.name%></label>
-  <%if index % 3 == 0%><br><%end%>
+  <label><input type="checkbox" name="game_ids[]" value="<%=game.id%>"><%=game.name%></label>
+  <br>
   <%end%>
   <input type="submit" name="submit" value="Create User">
 </form>
