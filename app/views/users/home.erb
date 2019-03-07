@@ -1,24 +1,26 @@
 <h1>Welcome <%=@user.name%></h1>
-<% binding.pry %>
 <% if current_user == @user %>
 <a href="/users/<%=@user.slug%>/edit">Edit Profile Info and Games List</a>
 <% end %>
 <br>
 <br><br>
 
+
 <%@user_games.each do |user_game|%>
 <h4><a href="/games/<%=user_game.game.slug%>"><%=user_game.game.name%></a>:
-  <a href="/user_games/<%=user_game.id%>">
-  <%if user_game.status%>
-  <%=user_game.status%>
-  <%else%>
-  Not Started
-  <%end%></a></h4>
-  <br><br>
+<% if user_game.status %>
+<%= user_game.status %>
+<% else %>
+Not Started
+<% end %>
+<% if current_user == @user %>
+<a href="/user_games/<%=user_game.id%>">Change Status</a></h4>
+<% end %>
 <%end%>
+<br><br>
 
 
-
+<a href="/users">User Index</a><br>
 <% if current_user == @user %>
 <a href="/logout">Log Out</a>
 <br>
@@ -26,4 +28,7 @@
   <input id="hidden" type="hidden" name="_method" value="DELETE">
   <input type="submit" value="Delete User">
 </form>
+
+<% else %>
+<a href="/users/<%=current_user.slug%>">Return to Home page</a>
 <% end %>
