@@ -1,1 +1,16 @@
-<h1>Edit</h1>
+<h1>Edit Your Info</h1>
+<%binding.pry%>
+
+<form action="/users/<%=@user.slug%>" method="post">
+  <input id="hidden" type="hidden" name="_method" value="PATCH">
+  Name:<input type="text" name="name" value = "<%=@user.name%>"><br>
+  Username:<input type="text" name="username" value="<%=@user.username%>"><br>
+  Password:<input type="text" name="password"><br>
+
+  <% @games.each.with_index(1) do |game, index|%>
+  <label><input type="checkbox" name="game_ids[]" value="<%=game.id%>"><%=game.name%></label>
+  <br>
+  <%end%>
+  <input type="submit" name='submit' value="Change Account Info">
+
+</form>

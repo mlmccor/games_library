@@ -25,7 +25,7 @@ class UsersController < ApplicationController
     erb :'/users/failure'
   end
 
-  get'/users/:slug' do
+  get '/users/:slug' do
     @user = User.find_by_slug(params[:slug])
     if current_user == @user
       @user_games = @user.user_games
@@ -45,7 +45,15 @@ class UsersController < ApplicationController
 
   get '/users/:slug/edit' do
     @user = User.find_by_slug(params[:slug])
+    @games = Game.all
     erb :'/users/edit'
+  end
+
+  patch '/users/:slug' do
+    @user = User.find_by_slug(params[:slug])
+    @user.update(name: params[:name], username: params[:username], password: params[:password], game_ids: params[:game_ids])
+    @user.save
+    redirect "/users/#{@user.slug}"
   end
 
   delete '/users/:slug/delete' do
