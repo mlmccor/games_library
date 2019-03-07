@@ -1,1 +1,4 @@
-<%=@users.count %>
+<% @users.each do |user| %>
+<a href= "/users/<%=user.slug%>"><%=user.name%> - <%=user.username%></a>
+<br><br>
+<% end %>

@@ -27,10 +27,8 @@ class UsersController < ApplicationController
 
   get '/users/:slug' do
     @user = User.find_by_slug(params[:slug])
-    if current_user == @user
-      @user_games = @user.user_games
-      erb :'/users/home'
-    end
+    @user_games = @user.user_games
+    erb :'/users/home'    
   end
 
   post "/users/login" do
