@@ -28,7 +28,7 @@ class UsersController < ApplicationController
   get '/users/:slug' do
     @user = User.find_by_slug(params[:slug])
     @user_games = @user.user_games
-    erb :'/users/home'    
+    erb :'/users/home'
   end
 
   post "/users/login" do
@@ -43,8 +43,12 @@ class UsersController < ApplicationController
 
   get '/users/:slug/edit' do
     @user = User.find_by_slug(params[:slug])
-    @games = Game.all
-    erb :'/users/edit'
+    if current_user == @user
+      @games = Game.all
+      erb :'/users/edit'
+    else
+      redirect '/failure'
+    end
   end
 
   patch '/users/:slug' do
@@ -56,12 +60,15 @@ class UsersController < ApplicationController
 
   delete '/users/:slug/delete' do
     @user = User.find_by_slug(params[:slug])
-    @user.destroy
-    redirect '/'
+    if current_user == @user
+      @user.destroy
+      redirect '/'
+    else
+      redirect '/failure'
+    end
   end
 
   get '/logout' do
-    binding.pry
     session.clear
     redirect '/'
   end

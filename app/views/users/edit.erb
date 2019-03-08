@@ -1,5 +1,4 @@
 <h1>Edit Your Info</h1>
-<%binding.pry%>
 
 <form action="/users/<%=@user.slug%>" method="post">
   <input id="hidden" type="hidden" name="_method" value="PATCH">
@@ -8,7 +7,7 @@
   Password:<input type="text" name="password"><br>
 
   <% @games.each.with_index(1) do |game, index|%>
-  <label><input type="checkbox" name="game_ids[]" value="<%=game.id%>"><%=game.name%></label>
+  <label><input type="checkbox" name="game_ids[]" value="<%=game.id%>"<%='checked' if @user.games.include?(game)%>><%=game.name%></label>
   <br>
   <%end%>
   <input type="submit" name='submit' value="Change Account Info">

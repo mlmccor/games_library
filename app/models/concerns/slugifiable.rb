@@ -3,7 +3,11 @@ module Slugifiable
   module InstanceMethods
 
     def slug
-      self.name.downcase.gsub(' ', '-').gsub(/[^\w-]/, '')
+      if self.class == User
+        self.username.downcase.gsub(' ', '-').gsub(/[^\w-]/, '')
+      else
+        self.name.downcase.gsub(' ', '-').gsub(/[^\w-]/, '')
+      end
     end
 
   end

@@ -1,1 +1,5 @@
-<%=@games.count%>
+<% @games.each do |game| %>
+<h2><a href="/games/<%=game.slug%>"><%=game.name%></a></h2>
+<% end %>
+<br><br>
+<a href="/users/<%=current_user.slug%>">Return to Home</a>

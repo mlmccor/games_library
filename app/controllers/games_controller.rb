@@ -8,6 +8,7 @@ class GamesController < ApplicationController
 
   get '/games/:slug' do
     @game = Game.find_by_slug(params[:slug])
+    @users = User.all
     erb :'/games/show'
   end
 end
