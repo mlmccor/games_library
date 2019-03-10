@@ -1,3 +1,8 @@
+<% if flash[:message] %>
+<div class="alert alert-danger" role="alert">
+  <%=flash[:message]%>
+</div>
+<% end %>
 <form action="/users" method="post">
   Name:<input type="text" name="name">
   <br>

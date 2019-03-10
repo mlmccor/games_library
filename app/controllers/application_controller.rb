@@ -9,9 +9,10 @@ class ApplicationController < Sinatra::Base
   register Sinatra::Flash
 
   get '/' do
+    session.clear
     erb :welcome
   end
-  
+
   helpers do
 		def logged_in?
 			!!session[:user_id]

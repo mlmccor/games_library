@@ -1,3 +1,9 @@
+<% if flash[:message] %>
+<div class="alert alert-primary" role="alert">
+  <%=flash[:message]%>
+</div>
+<% end %>
+
 <% if current_user == @user %>
 <h1>Welcome <%=@user.name%></h1>
 <a href="/users/<%=@user.slug%>/edit">Edit Profile Info and Games List</a>
@@ -16,11 +22,11 @@
 Not Started
 <% end %>
 <% if current_user == @user %>
-<a href="/user_games/<%=user_game.id%>">Change Status</a></h4>
+  <a href="/user_games/<%=user_game.id%>">Change Status</a></h4>
 <% end %>
 <%end%>
 <br><br>
-<h4>Need a New Game? <a href="/games">Browse the List</a></h4>
+<h4>Looking For a New Game? <a href="/games">Browse the List</a></h4>
 <br><br>
 
 

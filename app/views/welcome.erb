@@ -1,3 +1,8 @@
+<% if flash[:message] %>
+<div class="alert alert-primary" role="alert">
+  <%=flash[:message]%>
+</div>
+<% end %>
 <h1>Welcome to the Games Library Progress Tracker!</h1>
 <br>
 
@@ -5,4 +10,4 @@
   <br><br>
   Or
   <br><br>
-  <a href="/users/login">Login</a> to view your games!</h2>
+  <a href="/users/login">Log In</a> to view your games!</h2>

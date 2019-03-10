@@ -13,8 +13,13 @@ class UsersController < ApplicationController
   end
 
   post '/users' do
-    @user = User.create(name: params[:name], username: params[:username], password: params[:password], game_ids: params[:game_ids])
-    redirect '/users/login'
+    if User.find_by(username: params[:username])
+      flash[:message] = "Username already taken"
+      redirect '/users/new'
+    else
+      @user = User.create(name: params[:name], username: params[:username], password: params[:password], game_ids: params[:game_ids])
+      redirect '/users/login'
+    end
   end
 
   get '/users/login' do
@@ -37,7 +42,8 @@ class UsersController < ApplicationController
 			session[:user_id] = user.id
 			redirect "/users/#{user.slug}"
 		else
-			redirect '/failure'
+      flash[:message] = "Incorrect Username or Password"
+			redirect '/users/login'
 		end
   end
 
@@ -47,24 +53,37 @@ class UsersController < ApplicationController
       @games = Game.all
       erb :'/users/edit'
     else
-      redirect '/failure'
+      flash[:message] = "You do not have access to this page"
+      redirect '/users/failure'
     end
   end
 
   patch '/users/:slug' do
+    binding.pry
     @user = User.find_by_slug(params[:slug])
-    @user.update(name: params[:name], username: params[:username], password: params[:password], game_ids: params[:game_ids])
-    @user.save
-    redirect "/users/#{@user.slug}"
+    if params[:password].empty?
+      flash[:message] = "Password is required"
+      redirect "/users/#{@user.slug}/edit"
+    elsif User.find_by(username: params[:username]) && User.find_by(username: params[:username]) != @user
+      flash[:message] = "Username already taken"
+      redirect "/users/#{@user.slug}/edit"
+    else
+      @user.update(name: params[:name], username: params[:username], password: params[:password], game_ids: params[:game_ids])
+      @user.save
+      flash[:message] = "User info successfully updated"
+      redirect "/users/#{@user.slug}"
+    end
   end
 
   delete '/users/:slug/delete' do
     @user = User.find_by_slug(params[:slug])
     if current_user == @user
       @user.destroy
+      flash[:message] = "Account deleted"
       redirect '/'
     else
-      redirect '/failure'
+      flash[:message] = "You do not have access to this page"
+      redirect '/users/failure'
     end
   end
 
