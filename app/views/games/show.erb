@@ -1,19 +1,21 @@
 <h1><%=@game.name%></h1>
 
-<div>
+<div class="container">
   <%=@game.summary%>
 </div>
+<br><br>
+<h4>For more info: <a href="<%=@game.url%>">Click Here</a></h4>
 <% x = 0 %>
 <% @users.each do |user| %>
 <% if user.games.include?(@game)%>
 <% x += 1 %>
 <% end %>
 <% end %>
-<br><br>
+
 <div>
   Number of Players Who Own This Game: <%= x %>
-  <br>
 </div>
+<br><br>
 
 <h4><a href="/games">Return to Games Index</a></h4>
 <h4><a href="/users/<%=current_user.slug%>">Return to Home Page</a></h4>

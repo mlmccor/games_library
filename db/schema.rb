@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190227194227) do
+ActiveRecord::Schema.define(version: 20190313183151) do
 
   create_table "ar_internal_metadata", primary_key: "key", force: :cascade do |t|
     t.string   "value"
@@ -24,6 +24,7 @@ ActiveRecord::Schema.define(version: 20190227194227) do
   create_table "games", force: :cascade do |t|
     t.string "name"
     t.string "summary"
+    t.string "url"
   end
 
   create_table "user_games", force: :cascade do |t|

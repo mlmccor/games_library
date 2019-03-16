@@ -10,7 +10,7 @@ class Api
     my_array = JSON.parse(data)
     my_array.each do |game|
       if !game['name'].include?('Assault') && !game['name'].include?('Beach') && !game['name'].include?('Silk')
-        Game.create(name: game['name'], summary: game['summary'])
+        Game.create(name: game['name'], summary: game['summary'], url: game['url'])
       end
     end
 

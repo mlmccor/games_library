@@ -21,5 +21,13 @@ class ApplicationController < Sinatra::Base
 		def current_user
 			User.find(session[:user_id])
 		end
+
+    def authorize_user(user)
+      if !(logged_in? && current_user == user)
+        flash[:message] = "You don't have access to this page"
+        redirect '/users/failure'
+      end
+    end
+
 	end
 end

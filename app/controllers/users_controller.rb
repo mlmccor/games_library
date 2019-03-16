@@ -49,18 +49,14 @@ class UsersController < ApplicationController
 
   get '/users/:slug/edit' do
     @user = User.find_by_slug(params[:slug])
-    if current_user == @user
-      @games = Game.all
-      erb :'/users/edit'
-    else
-      flash[:message] = "You do not have access to this page"
-      redirect '/users/failure'
-    end
+    authorize_user(@user)
+    @games = Game.all
+    erb :'/users/edit'
   end
 
   patch '/users/:slug' do
-    binding.pry
     @user = User.find_by_slug(params[:slug])
+    authorize_user(@user)
     if params[:password].empty?
       flash[:message] = "Password is required"
       redirect "/users/#{@user.slug}/edit"
@@ -77,14 +73,10 @@ class UsersController < ApplicationController
 
   delete '/users/:slug/delete' do
     @user = User.find_by_slug(params[:slug])
-    if current_user == @user
-      @user.destroy
-      flash[:message] = "Account deleted"
-      redirect '/'
-    else
-      flash[:message] = "You do not have access to this page"
-      redirect '/users/failure'
-    end
+    authorize_user(@user)
+    @user.destroy
+    flash[:message] = "Account deleted"
+    redirect '/'
   end
 
   get '/logout' do
